@@ -11,6 +11,7 @@ import {
 import {connect} from 'react-redux';
 
 import OptionButton from './Components/OptionButton';
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import BottomTab from "./Components/BottomTab";
 class QuizScreen extends Component {
   state = {
@@ -68,7 +69,25 @@ class QuizScreen extends Component {
           (
             
             <ScrollView style={{ backgroundColor: "#3a3f4e", flex: 1 }}>
-            <View
+              {
+                this.state.question <= this.props.quiz.quiz.length ?
+                (
+                    <View
+                      style={{
+                        alignItems:'center',
+                        justifyContent:'center'
+                      }}
+                    >
+                        <Icon name="frown-open" size={90} color='red'></Icon>
+                        <Text style={{color:'#fff',fontSize:20}}> Finished / no quiz avalable </Text>
+                 
+                    </View>
+
+                )
+                :
+                (
+                 <View>
+                   <View
               style={{
                 flex: 1,
                 alignItems: "center"
@@ -134,6 +153,10 @@ class QuizScreen extends Component {
               </OptionButton>
             </View>
             {/* <Timer /> */}
+                  </View> 
+                )
+
+              }
            </ScrollView>
            
           )
