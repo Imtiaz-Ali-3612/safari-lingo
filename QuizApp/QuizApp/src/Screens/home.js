@@ -86,6 +86,7 @@ const  styles=StyleSheet.create({
       main:{
         backgroundColor: "#3a3f4e",
         padding:20,
+        paddingTop:200,
         flex:1,
         justifyContent:'center'
       }

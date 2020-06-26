@@ -38,7 +38,7 @@ class QuizScreen extends Component {
     },
     answer: 2,
     question:0,
-    timer:15
+    timer:30
   };
   selectOption = (opt, answerid) => {
     console.log("----------------------");
@@ -59,16 +59,18 @@ class QuizScreen extends Component {
       setTimeout(function() {
         color[opt].back = "#3a3f4e";
         color[opt].text = "#cccfd3";
-        this.setState({color:color,timer:15}) 
-        this.props.nextQuestion();
-        this.nStart()
+        this.setState({color:color,timer:30}) 
+        if(this.props.quiz.question < this.props.quiz.quiz.length ){
+          this.props.nextQuestion();
+          this.nStart()
+        }
     }.bind(this), 1000)
   };
   nStart = () => {
     this._interval = setInterval(() => {
       if (this.state.timer == 0) {
         clearInterval(this._interval);
-        this.setState({ timer: 15 });
+        this.setState({ timer: 30 });
         this.props.nextQuestion();
       } else {
         this.setState({
@@ -78,7 +80,12 @@ class QuizScreen extends Component {
     }, 2000);
   };
   componentDidMount=()=>{
-    this.nStart();
+    if(this.props.quiz.question < this.props.quiz.quiz.length ){
+      this.nStart()
+    }
+  }
+  componentWillUnmount=()=>{
+    this.props.resetQuiz();
   }
   render() {
     var question=this.props.quiz.question;
