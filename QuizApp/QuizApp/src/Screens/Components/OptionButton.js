@@ -23,12 +23,12 @@ class App extends Component {
 }
 const styles = StyleSheet.create({
   optionButton: {
-    padding: 10,
+    padding: 20,
     alignItems: "center",
     borderWidth: 2,
     borderRadius: 10,
     borderColor: "#535a68",
-    marginTop: 5,
+    marginTop: 10,
     width: "80%"
   }
 });

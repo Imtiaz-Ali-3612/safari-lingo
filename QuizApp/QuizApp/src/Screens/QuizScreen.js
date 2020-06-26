@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Text,
   View,
-  ActivityIndicator
+  ActivityIndicator,
+  TouchableOpacity
 } from "react-native";
 import {connect} from 'react-redux';
 
@@ -14,7 +15,6 @@ import OptionButton from './Components/OptionButton';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import BottomTab from "./Components/BottomTab";
 import {addScore,nextQuestion,resetQuiz} from '../Redux/actions/actions';
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 class QuizScreen extends Component {
   state = {
@@ -37,13 +37,9 @@ class QuizScreen extends Component {
       }
     },
     answer: 2,
-    question:0
+    question:0,
+    timer:15
   };
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: 'QUiz App',
-    };
-  }
   selectOption = (opt, answerid) => {
     console.log("----------------------");
     var color = this.state.color;
@@ -60,20 +56,45 @@ class QuizScreen extends Component {
     }
 
     this.setState({color:color})
-      setTimeout(function() { //Start the timer
+      setTimeout(function() {
         color[opt].back = "#3a3f4e";
         color[opt].text = "#cccfd3";
-        this.setState({color:color}) 
+        this.setState({color:color,timer:15}) 
         this.props.nextQuestion();
-        this.props.navigation.navigate('Quiz')
-    }.bind(this), 2000)
+        this.nStart()
+    }.bind(this), 1000)
   };
+  nStart = () => {
+    this._interval = setInterval(() => {
+      if (this.state.timer == 0) {
+        clearInterval(this._interval);
+        this.setState({ timer: 15 });
+        this.props.nextQuestion();
+      } else {
+        this.setState({
+          timer: this.state.timer - 1
+        });
+      }
+    }, 2000);
+  };
+  componentDidMount=()=>{
+    this.nStart();
+  }
   render() {
     var question=this.props.quiz.question;
+    this.props.navigation.setOptions({
+      title: this.props.quiz.subject+" "+(question+1)+" / "+this.props.quiz.quiz.length ,
+      headerStyle: {
+        backgroundColor: '#69738d',
+      },
+      headerTintColor: '#fff',
+    
+      headerTitleStyle: {
+        alignSelf:'center'
+      },
+      
+    })
 
-    console.log('--------------------Quiz -----------------')
-    console.log(question)
-    // console.log(this.props.quiz)
     return (
       <View style={{ flex:1}}>
         {
@@ -83,8 +104,7 @@ class QuizScreen extends Component {
           )
           :
           (
-            
-            <ScrollView style={{ backgroundColor: "#3a3f4e" }}>
+            <View style={{flex:1}}>
               {
                 this.props.quiz.quiz.length ==0 ?
                 (
@@ -102,14 +122,16 @@ class QuizScreen extends Component {
                 )
                 :
                 (
-
-                <View>
+                  <ScrollView style={{ flex:1,backgroundColor: "#3a3f4e" }}>
+           
+                 <View>
                  {
                   question == this.props.quiz.quiz.length-1 ?
                      (
                         <View style={{justifyContent:'center',alignItems:'center'}}>
                           <Icon name="thumbs-up" color="white" size={120}></Icon>
                           <Text style={{color:'#fff',fontSize:25}}> Thumbs up! You Finished</Text>
+                     <Text style={{color:'#fff',fontSize:25}}>Your Score : {this.props.quiz.score}</Text>
 
                           <TouchableOpacity
                             style={{marginTop:30,padding:20,borderWidth:1,borderColor:'#fff',borderRadius:60}}
@@ -194,20 +216,32 @@ class QuizScreen extends Component {
                                 </Text>
                               </OptionButton>
                             </View>
-                            <View style={{ flexDirection: "column-reverse" }}>
-                              <BottomTab />
-                            </View>
+
                           
 
                         </View>
                      )
                    }
                   </View>
+                   
+               </ScrollView>
                 )
 
               }
-           </ScrollView>
-           
+
+           <View style={{ flexDirection: "column-reverse" }}>
+             {
+           question == this.props.quiz.quiz.length-1 ?
+                     (
+                      null
+                     ) :
+                     (
+                       
+                      <BottomTab timer={this.state.timer}/>
+                     )  
+            }
+            </View>
+           </View>
           )
         }
 
@@ -217,16 +251,16 @@ class QuizScreen extends Component {
 }
 const styles = StyleSheet.create({
   optionStyle: {
-    fontSize: 15,
-    fontWeight: "500"
+    fontSize: 18,
+    fontWeight: "bold"
     // color: "#cccfd3"
   },
   questionStyle: {
     padding: 40,
     textAlign: "center",
     color: "#cccfd3",
-    fontWeight: "500",
-    fontSize: 15
+    fontWeight: "bold",
+    fontSize: 20
   }
 });
 

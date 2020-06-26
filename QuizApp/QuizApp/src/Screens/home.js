@@ -18,26 +18,26 @@ import SplashScreen from './SplashScreen';
 
 
 class Home extends Component{
-    onClick=(screen)=>{
+     onClick=(screen)=>{
         this.props.getSubject();
         this.props.navigation.navigate(screen)
     }
 
 
     render(){
-            // return  <SplashScreen></SplashScreen>
-
         return(
             <View style={styles.main}>
                 <ScrollView  >
                    <View style={styles.buttonContainer}>
 
-                        <MainButton onPress={()=>this.onClick('Subject')}>
+                        <MainButton 
+                            
+                        onPress={()=>this.onClick('Subject')}>
                             <View style={{flexDirection:'row'}}>
                                 <Text style={{fontSize:25,paddingRight:30,color: "#cccfd3"}}>View Subjects</Text>
     
                                 <View style={{flexDirection:'row-reverse'}}>
-                                    <Icon name="arrow-circle-right" size={30}  color="#cccfd3" />
+                                    <Icon name="book-open" size={30}  color="#cccfd3" />
                                 </View>
                              </View>
                         </MainButton>
@@ -46,7 +46,7 @@ class Home extends Component{
                                 <Text style={{fontSize:25,paddingRight:30,color: "#cccfd3"}}>Give Us Feedback</Text>
     
                                 <View style={{flexDirection:'row-reverse'}}>
-                                    <Icon name="arrow-circle-right" size={30}  color="#cccfd3" />
+                                    <Icon name="comment-dots" size={30}  color="#cccfd3" />
                                 </View>
                              </View>
                         </MainButton>                        
@@ -86,7 +86,8 @@ const  styles=StyleSheet.create({
       main:{
         backgroundColor: "#3a3f4e",
         padding:20,
-        flex:1
+        flex:1,
+        justifyContent:'center'
       }
       ,box:{
         padding:10,

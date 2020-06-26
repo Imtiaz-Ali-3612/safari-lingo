@@ -8,32 +8,32 @@ import {
   View
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import {nextQuestion} from '../../Redux/actions/actions';
+import {connect} from 'react-redux';
+
+
 class BottomTab extends Component {
-  state = {
-    timer: 5
-  };
-  componentDidMount() {
-    this.nStart();
-  }
-  nStart = () => {
-    this._interval = setInterval(() => {
-      if (this.state.timer == 0) {
-        clearInterval(this._interval);
-        this.setState({ timer: 0 });
-        console.log("navigate here ");
-      } else {
-        this.setState({
-          timer: this.state.timer - 1
-        });
-      }
-    }, 1000);
-  };
+  // state = {
+  //   timer: 15
+  // };
+
+  // componentDidMount() {
+  //   console.log('------------vompo did ----')
+  //   this.setState({timer:this.props.timer})
+  //   this.nStart();
+  // }
+  // componentDidUpdate(prevProps) {
+  //   if (prevProps.quiz !== this.props.quiz || prevProps.timer !=this.props.timer) {
+  //     this.setState({time:15})
+  //     this.nStart();
+  //   }
+  // }
   render() {
     return (
-      <View style={{ height: 70, justifyContent: "flex-end" }}>
+      <View style={styles.box}>
         <View style={styles.container}>
-          <View>
-            <Icon name="flag" color="white" size={40} />
+          <View style={{padding:10}}>
+            <Icon name="flag" color="white" size={25} />
           </View>
           {/* <TouchableOpacity onPress={() => this.nStart()}>
             <Text>start</Text>
@@ -48,13 +48,13 @@ class BottomTab extends Component {
                     color: "white"
                   }}
                 >
-                  {this.state.timer}
+                  {this.props.timer}
                 </Text>
               </View>
             </View>
           </View>
-          <View>
-            <Icon name="heart" color="red" size={40} />
+          <View style={{padding:10}}>
+            <Icon name="heart" color="red" size={25} />
           </View>
         </View>
       </View>
@@ -62,11 +62,15 @@ class BottomTab extends Component {
   }
 }
 const styles = StyleSheet.create({
+  box:{
+    height: 60,
+        backgroundColor: "#69738d",    
+         borderTopWidth: 1,
+        justifyContent: "flex-end" 
+  },
   container: {
     height: 50,
     flexDirection: "row",
-    backgroundColor: "#69738d",
-    borderTopWidth: 1,
     justifyContent: "flex-end"
   },
   circleContainer: {
@@ -84,4 +88,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#2c303b"
   }
 });
-export default BottomTab;
+const mapStateToProps = state => ({
+  quiz: state.quiz,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  // addScore:()=>dispatch(addScore()),
+  nextQuestion:()=>dispatch(nextQuestion()),
+  // resetQuiz:()=>dispatch(resetQuiz())
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(BottomTab);

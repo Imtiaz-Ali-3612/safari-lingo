@@ -14,6 +14,7 @@ import {
   View,
   Text,
   StatusBar,
+  TouchableOpacity
 } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -23,6 +24,7 @@ import QuizScreen from './src/Screens/QuizScreen';
 import HomeScreen from './src/Screens/Home';
 import SubjectScreen from './src/Screens/Subject';
 
+import Icon from 'react-native-vector-icons/FontAwesome5';
 
 const Stack = createStackNavigator();
 
@@ -42,9 +44,50 @@ const App =() => {
   return (
     <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Quiz" component={QuizScreen} />
-            <Stack.Screen name="Subject" component={SubjectScreen} />
+            <Stack.Screen name="Home" component={HomeScreen} 
+             options={{
+
+              title: "Quiz App" ,
+              headerStyle: {
+                backgroundColor: '#69738d',
+              },
+              headerTintColor: '#fff',
+            
+              headerTitleStyle: {
+                alignSelf:'center'
+              },
+              
+            }}
+            />
+            <Stack.Screen name="Quiz" component={QuizScreen} 
+             options={
+              {
+                headerRight: () => (
+                  <TouchableOpacity
+                    style={{padding:10}}
+                  > 
+                    <Icon name='ellipsis-h' size={20}color="#30d1e1" ></Icon>
+                    </TouchableOpacity>
+                )
+              }
+            }
+            />
+            <Stack.Screen name="Subject" component={SubjectScreen}
+            options={{
+
+                title: "Choose Your Subject" ,
+                headerStyle: {
+                  backgroundColor: '#69738d',
+                },
+                headerTintColor: '#fff',
+              
+                headerTitleStyle: {
+                  alignSelf:'center'
+                },
+                
+              }}
+            
+            />
           </Stack.Navigator>
     </NavigationContainer>
   );
