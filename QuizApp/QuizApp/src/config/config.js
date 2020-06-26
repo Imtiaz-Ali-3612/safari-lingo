@@ -1,0 +1,1 @@
+exports.backend='https://quiz-appd-devcrest.herokuapp.com/';

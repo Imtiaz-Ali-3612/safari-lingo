@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import ReduxThunk from 'redux-thunk';
-import rootReducer from './reducers/reducers';
-
+import subjectReducer from './reducers/subjectReducer';
+import quizReducer from './reducers/quizReducer';
 import { combineReducers } from 'redux';
 
 var allReducers=combineReducers({
-    token: rootReducer,
- 
+    subject: subjectReducer,
+    quiz:quizReducer
 });
 
 const middlewares = [ReduxThunk];

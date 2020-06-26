@@ -5,55 +5,70 @@ import {
   StyleSheet,
   View,
   Image,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from "react-native";
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import MainButton from './Components/mainScreenButton';
 // import { removeUserToken } from '../Redux/actions/actions';
-import {getSubject} from '../Redux/actions/actions';
+import {getQuiz, setSelectedSubject} from '../Redux/actions/actions';
 
 import SplashScreen from './SplashScreen';
 
 
 class Home extends Component{
-    onClick=(screen)=>{
-        this.props.getSubject();
-        this.props.navigation.navigate(screen)
+    onClick=(id,name)=>{
+        console.log(id)
+        this.props.setSelectedSubject(name)
+        this.props.getQuiz(id)
+        this.props.navigation.navigate('Quiz')
     }
 
 
     render(){
-            // return  <SplashScreen></SplashScreen>
+        console.log('---------subject-----')
+        console.log(this.props.subject)
 
+        console.log(this.props.subject)
         return(
+
             <View style={styles.main}>
-                <ScrollView  >
-                   <View style={styles.buttonContainer}>
+                {
+                    this.props.subject.loading ? 
+                    (
+                        <ActivityIndicator></ActivityIndicator>
+                    )
+                    :
+                    (
+                        <ScrollView  >
 
-                        <MainButton onPress={()=>this.onClick('Subject')}>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{fontSize:25,paddingRight:30,color: "#cccfd3"}}>View Subjects</Text>
+                        {this.props.subject.subject.map((sub)=>{
+                            return(
     
-                                <View style={{flexDirection:'row-reverse'}}>
-                                    <Icon name="arrow-circle-right" size={30}  color="#cccfd3" />
-                                </View>
-                             </View>
-                        </MainButton>
-                        <MainButton onPress={()=>this.onClick('Subject')}>
-                            <View style={{flexDirection:'row'}}>
-                                <Text style={{fontSize:25,paddingRight:30,color: "#cccfd3"}}>Give Us Feedback</Text>
+                            <View key={sub.subject_id} style={styles.buttonContainer}>
+                                {console.log(sub)}
+                               <MainButton onPress={()=>this.onClick(sub.subject_id,sub.subject_name)}>
+                                   <View style={{flexDirection:'row'}}>
+                                        <Text style={{fontSize:25,paddingRight:30,color: "#cccfd3"}}>{sub.subject_name}</Text>
+           
+                                       <View style={{flexDirection:'row-reverse'}}>
+                                           <Icon name="arrow-circle-right" size={30}  color="#cccfd3" />
+                                       </View>
+                                    </View>
+                               </MainButton>
+                               
+                               
+                              </View>
     
-                                <View style={{flexDirection:'row-reverse'}}>
-                                    <Icon name="arrow-circle-right" size={30}  color="#cccfd3" />
-                                </View>
-                             </View>
-                        </MainButton>                        
-                        
-                   </View>
-                </ScrollView>
-
+                            )
+                        })}
+                    </ScrollView>
+    
+    
+                    )
+                }
             </View>
         )
     }
@@ -68,7 +83,8 @@ const mapStateToProps = state => ({
   
   
   const mapDispatchToProps = dispatch => ({
-    getSubject:()=>dispatch(getSubject()),
+    getQuiz:(id)=>dispatch(getQuiz(id)),
+    setSelectedSubject:(data)=>dispatch(setSelectedSubject(data))
   });
 const  styles=StyleSheet.create({
     button:{
