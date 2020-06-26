@@ -7,3 +7,9 @@ export const ERROR = 'ERROR';
 export const LOADING = 'LOADING';
 
 export const SELECTED_SUBJECT = 'SELECTED_SUBJECT'
+
+
+export const NEXT_QUESTION ="NEXT_QUESTION"
+export const ADD_SCORE = "ADD_SCORE"
+
+export const RESET_QUIZ ="RESET_QUIZ"

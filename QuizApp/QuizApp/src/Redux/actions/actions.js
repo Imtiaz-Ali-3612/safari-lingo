@@ -1,4 +1,4 @@
-import { SET_QUIZ,SELECTED_SUBJECT, SET_ANSWER, SET_SUBJECT , LOADING, ERROR} from './actionTypes';
+import { SET_QUIZ,SELECTED_SUBJECT, NEXT_QUESTION,ADD_SCORE, SET_SUBJECT , LOADING, ERROR, RESET_QUIZ} from './actionTypes';
 // import AsyncStorage from '@react-native-community/async-storage';
 import server from '../../config/config'
 
@@ -6,6 +6,12 @@ export const setQuiz = quiz => ({
     type: SET_QUIZ,
     data:quiz
 });
+export const nextQuestion = ()=>({
+    type:NEXT_QUESTION,
+})
+export const addScore =()=>({
+    type:ADD_SCORE
+})
 export const setSubject = subject => ({
     type: SET_SUBJECT,
     data:subject
@@ -16,10 +22,6 @@ export const setSelectedSubject = subject =>({
     data:subject
 })
 
-// export const setSub = () => ({
-//     type: REMOVE_TOKEN,
-// });
-
 export const loading = bool => ({
     type:  LOADING,
     data: bool,
@@ -29,21 +31,9 @@ export const error = error => ({
     type: ERROR,
     data:error,
 });
-// export const postSignup = data => ({
-//     type: POST_SIGNUP,
-//     data:data,
-// });
-
-
-
-// export const deleteFood = (key) => (
-//   {
-//     type: DELETE_FOOD,
-//     key: key
-//   }
-// );
-// export const getUserScore = () => dispatch => 
-
+export const resetQuiz = ()=>({
+    type:RESET_QUIZ,
+})
 //  AsyncStorage.getItem('score')
 //         .then((data) => {
 //             dispatch(loading(false));
@@ -67,17 +57,6 @@ export const error = error => ({
 //             dispatch(error(err.message || 'ERROR'));
 //         })
 
-// export const removeUserToken = () => dispatch =>
-//     AsyncStorage.removeItem('token')
-//         .then((data) => {
-//             dispatch(loading(false));
-//             dispatch(removeToken(data));
-//         })
-//         .catch((err) => {
-//             dispatch(loading(false));
-//             dispatch(error(err.message || 'ERROR'));
-//         })
-
 export const getQuiz =(data)=>dispatch=>{
     console.log('---------in get quizes ---------')
     console.log(data)
@@ -93,7 +72,7 @@ export const getQuiz =(data)=>dispatch=>{
     .then((json) => {
         console.log('---response')
         console.log(json)
-        console.log(json.quiz)
+        // console.log(json.quiz)
         // dispatch(loading(false))
         dispatch(setQuiz(json.quiz));
         // dispatch(getHeading())

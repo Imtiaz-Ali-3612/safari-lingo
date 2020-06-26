@@ -30,7 +30,7 @@ class BottomTab extends Component {
   };
   render() {
     return (
-      <View style={{ height: 70, flex: 1, justifyContent: "flex-end" }}>
+      <View style={{ height: 70, justifyContent: "flex-end" }}>
         <View style={styles.container}>
           <View>
             <Icon name="flag" color="white" size={40} />

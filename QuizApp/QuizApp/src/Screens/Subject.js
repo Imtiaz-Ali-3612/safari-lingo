@@ -19,11 +19,14 @@ import SplashScreen from './SplashScreen';
 
 
 class Home extends Component{
+    
     onClick=(id,name)=>{
         console.log(id)
-        this.props.setSelectedSubject(name)
+
         this.props.getQuiz(id)
+        this.props.setSelectedSubject(name)
         this.props.navigation.navigate('Quiz')
+
     }
 
 
